@@ -1,6 +1,6 @@
 <div align="center">
 
-# Deletme on Pytorch
+# dare3d on Pytorch
 
 <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a>
 <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/-Lightning-792ee5?logo=pytorchlightning&logoColor=white"></a>
@@ -46,8 +46,8 @@ git checkout DARE3d
 cd DARE3d
 
 # create conda environment
-conda create -n deletme python=3.10
-conda activate deletme
+conda create -n dare3d python=3.10
+conda activate dare3d
 
 # install requirements
 pip install -r requirements.txt
@@ -59,22 +59,22 @@ Train model with default configuration
 
 ```bash
 # train on CPU
-python deletme3D/train.py experiment=segmentation trainer=cpu
+python dare3d3D/train.py experiment=segmentation trainer=cpu
 
 # train on GPU
-python deletme3D/train.py experiment=segmentation trainer=gpu
+python dare3d3D/train.py experiment=segmentation trainer=gpu
 ```
 
 Train model with chosen experiment configuration from [configs/experiment/](configs/experiment/)
 
 ```bash
-python deletme3D/train.py experiment=segmentation
+python dare3d3D/train.py experiment=segmentation
 ```
 
 You can override any parameter from command line like this
 
 ```bash
-python deletme3D/train.py experiment=segmentation trainer.max_epochs=20 data.batch_size=64
+python dare3d3D/train.py experiment=segmentation trainer.max_epochs=20 data.batch_size=64
 ```
 
 ## Building singularity images
@@ -86,7 +86,7 @@ python deletme3D/train.py experiment=segmentation trainer.max_epochs=20 data.bat
 ## Inference
 
 ```bash
-python deletme3D/predict.py model_dir=<path_to_model_dir> inference_dir=<path_to_tif_folder>
+python dare3d3D/predict.py model_dir=<path_to_model_dir> inference_dir=<path_to_tif_folder>
 ```
 
 ### Model directory structure
@@ -142,7 +142,7 @@ that we add in the `configs/predict.yaml` or directly in CLI by adding a paramet
 This is an example of inference on a folder with tif movies of the same scale.
 
 ```bash
-python deletme3D/predict.py\
+python dare3d3D/predict.py\
     model_dir=<path_to_model_dir>\
     inference_dir=<path_to_tif_folder>\
     device=gpu\ # Run the experiment on the gpu
