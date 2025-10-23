@@ -1,0 +1,4 @@
+_target_: deletme3D.losses.pixelwise_crossentropy.pixelwise_weighted_binary_crossentropy2
+weight_scal: 1.0
+with_logits: true
+eps: 0.000001

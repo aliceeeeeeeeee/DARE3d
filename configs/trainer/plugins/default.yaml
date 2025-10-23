@@ -1,0 +1,2 @@
+_target_: deletme3D.utils.DisabledSLURMEnvironment
+auto_requeue: false

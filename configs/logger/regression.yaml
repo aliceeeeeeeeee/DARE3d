@@ -1,0 +1,5 @@
+regression:
+  _target_: deletme3D.loggers.regression_logger.RegressionLogger
+  save_dir: ${paths.output_dir}/regression/
+  log_freq: 5
+  representation: ${representation_mode}
