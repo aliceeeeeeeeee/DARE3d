@@ -41,9 +41,9 @@ This 2 steps approach can be used for 3D images.
 
 ```bash
 # clone project
-git clone https://github.com/JFRupprecht-OM/deletme
-git checkout deletme_pytorch
-cd deletme-pytorch
+git clone https://github.com/JFRupprecht-OM/DARE3d
+git checkout DARE3d
+cd DARE3d
 
 # create conda environment
 conda create -n deletme python=3.10
