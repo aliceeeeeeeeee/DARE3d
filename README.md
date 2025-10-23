@@ -11,7 +11,7 @@
 
 ## Description
 
-**DE**ep **L**earning **E**pithelial **T**issue **ME**chanics
+**D**ivision **A**xis **RE**cognition in **3D** tissues
 
 This repository contains the Python implementation to detect cell divisions (positions) and their attributes (i.e. angle and length) for 3D images.
 
