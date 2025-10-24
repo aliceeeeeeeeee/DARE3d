@@ -61,6 +61,7 @@ The project folder structure is as follow:
 - deletme   # This is the library package that defines the model, the dataset...
 - scripts   # Contains the scripts to run the experiments
 - logs      # Contains the logs of the experiments
+```
 
 ## How to run
 
