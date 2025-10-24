@@ -87,7 +87,6 @@ You can override any parameter from command line like this
 python dare3d3D/train.py experiment=segmentation trainer.max_epochs=20 data.batch_size=64
 ```
 
-## Building singularity images
 
 ## Dataset
 
@@ -224,3 +223,5 @@ python dare3d3D/predict.py\
 ## Train
 
 ## Tests
+
+## Building singularity images
