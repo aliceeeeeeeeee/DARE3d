@@ -22,15 +22,7 @@ Our approach relies on two steps:
 
 
 ## Summary
-
 - [Native installation](#installation)
-- [Building singularity image](#building-singularity-images)
-- [Download Dataset](#dataset)
-- [Pretrained models](#pretrained-models)
-- [Inference](#inference)
-- [Train on your own data](#train)
-- [Run the tests](#tests)
-- [Find out here what this project can do](https://github.com/ashleve/lightning-hydra-template)
 
 ## Installation
 
