@@ -66,22 +66,22 @@ Train model with default configuration
 
 ```bash
 # train on CPU
-python dare3d3D/train.py experiment=segmentation trainer=cpu
+python dare3d/train.py experiment=segmentation trainer=cpu
 
 # train on GPU
-python dare3d3D/train.py experiment=segmentation trainer=gpu
+python dare3d/train.py experiment=segmentation trainer=gpu
 ```
 
 Train model with chosen experiment configuration from [configs/experiment/](configs/experiment/)
 
 ```bash
-python dare3d3D/train.py experiment=segmentation
+python dare3d/train.py experiment=segmentation
 ```
 
 You can override any parameter from command line like this
 
 ```bash
-python dare3d3D/train.py experiment=segmentation trainer.max_epochs=20 data.batch_size=64
+python dare3d/train.py experiment=segmentation trainer.max_epochs=20 data.batch_size=64
 ```
 
 
@@ -152,7 +152,7 @@ You can also generate sparse weight with cylinder shapes by using the script:
 ## Inference
 
 ```bash
-python dare3d3D/predict.py model_dir=<path_to_model_dir> inference_dir=<path_to_tif_folder>
+python dare3d/predict.py model_dir=<path_to_model_dir> inference_dir=<path_to_tif_folder>
 ```
 
 ### Model directory structure
@@ -208,7 +208,7 @@ that we add in the `configs/predict.yaml` or directly in CLI by adding a paramet
 This is an example of inference on a folder with tif movies of the same scale.
 
 ```bash
-python dare3d3D/predict.py\
+python dare3d/predict.py\
     model_dir=<path_to_model_dir>\
     inference_dir=<path_to_tif_folder>\
     device=gpu\ # Run the experiment on the gpu
