@@ -15,14 +15,11 @@
 
 This repository contains the Python implementation to detect cell divisions (positions) and their attributes (i.e. angle and length) for 3D images.
 
-### Overview
-
-The approach is devided in two steps:
+Our approach relies on two steps:
 
 - Cell division detection using semantic segmentation to detect the center of the division
 - Cell attribute regression on detected divisions
 
-This 2 steps approach can be used for 3D images.
 
 ## Summary
 
