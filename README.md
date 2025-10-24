@@ -53,6 +53,15 @@ conda activate dare3d
 pip install -r requirements.txt
 ```
 
+#### Project folder structure
+The project folder structure is as follow:
+```
+- config    # Contains the hydra configuration files 
+- data      # This is where the data is locate
+- deletme   # This is the library package that defines the model, the dataset...
+- scripts   # Contains the scripts to run the experiments
+- logs      # Contains the logs of the experiments
+
 ## How to run
 
 Train model with default configuration
