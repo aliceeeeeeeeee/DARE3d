@@ -123,7 +123,7 @@ You can also add a sparse folder which can contains a weight matrix to consider 
 ## Folder hierarchy
 To make the configuration easier it is better if you follow the following folder hierarchy:
 ```
-deletme/
+dare3d/
     data/
         3d/
             movie1/
@@ -143,7 +143,7 @@ You can generate the experiments by using the two scripts:
 The data dir is the path where the movie folders are located
 
 You can also generate sparse weight with cylinder shapes by using the script:
-`python deletme3D/tools/generate_sparse_weights.py --annotated_label <movie.tif>`
+`python dare3d/tools/generate_sparse_weights.py --annotated_label <movie.tif>`
 
     
 
