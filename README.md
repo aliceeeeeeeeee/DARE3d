@@ -91,9 +91,9 @@ python dare3d3D/train.py experiment=segmentation trainer.max_epochs=20 data.batc
 
 ## Dataset
 
-## Dataset format
-
-The dataset format is very different from the 2D branch. Here we expect two images: 1) the raw input movie and 2) the label movie in the same format as the input movie. The raw input movie should be ordered in (T,Z,Y,X) and in `.tif` file format. The label movie should have the same dimension as the input movie and must contains labelled daughter cells centers. We retrieve the daughter cells centers pairs by performing a connected component analysis based on the value of the annotations. Two centers belonging to each a daughter cell from the same division must have consecutive label values with the first one being impair and the second pair. For instance, the first daughter cell may have pixels of value 1 and the second daughter cell pixels of value 2.
+For retraining, we need: 
+1) the raw input movie, which should be ordered with the time label first (T,Z,Y,X) and in `.tif` file format. 
+2) the label movie in the same format as the input movie, with the same dimension as the input movie and must contains labelled daughter cells centers. We retrieve the daughter cells centers pairs by performing a connected component analysis based on the value of the annotations. Two centers belonging to each a daughter cell from the same division must have consecutive label values with the first one being impair and the second pair. For instance, the first daughter cell may have pixels of value 1 and the second daughter cell pixels of value 2.
 
 Then, we expect by default to put these two movies in separate folders like:
 ```
