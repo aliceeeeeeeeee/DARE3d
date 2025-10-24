@@ -83,71 +83,9 @@ You can override any parameter from command line like this
 ```bash
 python dare3d/train.py experiment=segmentation trainer.max_epochs=20 data.batch_size=64
 ```
-
-
-## Dataset
-
-For retraining, we need: 
-1) the raw input movie, which should be ordered with the time label first (T,Z,Y,X) and in `.tif` file format. 
-2) the label movie in the same format as the input movie, with the same dimension as the input movie and must contains labelled daughter cells centers. We retrieve the daughter cells centers pairs by performing a connected component analysis based on the value of the annotations. Two centers belonging to each a daughter cell from the same division must have consecutive label values with the first one being impair and the second pair. For instance, the first daughter cell may have pixels of value 1 and the second daughter cell pixels of value 2.
-
-Then, we expect by default to put these two movies in separate folders like:
-```
-train/
-    im/
-        movie.tif
-    label/
-        movie.tif
-    sparse/ (optional)
-        movie.tif
-```
-If you want to add another movie `movie2.tif` and its label `movie2.tif`, you can do so by adding them to each corresponding folders:
-```
-train/
-    im/
-        movie.tif
-        movie2.tif
-    label/
-        movie.tif
-        movie2.tif
-    sparse/ (optional)
-        movie.tif
-```
-
-    
-The label movie must have the same name as the raw movie.
-You can also add a sparse folder which can contains a weight matrix to consider or not specific voxels in a movie. You can rule out certain parts of pixels if you want to. The sparse folder is optional. If a sparse matrix is not in the sparse folder, it defaults to a matrix of one which means that we will use all pixels (no sparse at all) for the given sample.
-
-**If movies are being added, you must add their scale to the `scales.json` file or it will use the default scale.**
-    
-## Folder hierarchy
-To make the configuration easier it is better if you follow the following folder hierarchy:
-```
-dare3d/
-    data/
-        3d/
-            movie1/
-            movie2/
-            movie3/
-            exp1/
-            exp2/
-```
-You can generate the experiments by using the two scripts:
-- First you need to create split movies on the X axis
-`python scripts/generate_split_movies.py --data_dir=<path to data dir>`
-- Then you can generate each experiment
-`python scripts/generate_exp1.py --data_dir=<path to data dir>`
-
-`generate_exp1.py` can range from experiment 1 to 5 example: `generate_exp3.py`.
-
-The data dir is the path where the movie folders are located
-
-You can also generate sparse weight with cylinder shapes by using the script:
-`python dare3d/tools/generate_sparse_weights.py --annotated_label <movie.tif>`
-
     
 
-## Pretrained Models
+## Using our pretrained Models
 
 ## Inference
 
@@ -217,8 +155,65 @@ python dare3d/predict.py\
     +data.batch_size=4 # The batch size used for inference
 ```
 
-## Train
+## Retraining dataset
 
-## Tests
+For retraining, we need: 
+1) the raw input movie, which should be ordered with the time label first (T,Z,Y,X) and in `.tif` file format. 
+2) the label movie in the same format as the input movie, with the same dimension as the input movie and must contains labelled daughter cells centers. We retrieve the daughter cells centers pairs by performing a connected component analysis based on the value of the annotations. Two centers belonging to each a daughter cell from the same division must have consecutive label values with the first one being impair and the second pair. For instance, the first daughter cell may have pixels of value 1 and the second daughter cell pixels of value 2.
+
+Then, we expect by default to put these two movies in separate folders like:
+```
+train/
+    im/
+        movie.tif
+    label/
+        movie.tif
+    sparse/ (optional)
+        movie.tif
+```
+If you want to add another movie `movie2.tif` and its label `movie2.tif`, you can do so by adding them to each corresponding folders:
+```
+train/
+    im/
+        movie.tif
+        movie2.tif
+    label/
+        movie.tif
+        movie2.tif
+    sparse/ (optional)
+        movie.tif
+```
+
+    
+The label movie must have the same name as the raw movie.
+You can also add a sparse folder which can contains a weight matrix to consider or not specific voxels in a movie. You can rule out certain parts of pixels if you want to. The sparse folder is optional. If a sparse matrix is not in the sparse folder, it defaults to a matrix of one which means that we will use all pixels (no sparse at all) for the given sample.
+
+**If movies are being added, you must add their scale to the `scales.json` file or it will use the default scale.**
+    
+## Folder hierarchy
+To make the configuration easier it is better if you follow the following folder hierarchy:
+```
+dare3d/
+    data/
+        3d/
+            movie1/
+            movie2/
+            movie3/
+            exp1/
+            exp2/
+```
+You can generate the experiments by using the two scripts:
+- First you need to create split movies on the X axis
+`python scripts/generate_split_movies.py --data_dir=<path to data dir>`
+- Then you can generate each experiment
+`python scripts/generate_exp1.py --data_dir=<path to data dir>`
+
+`generate_exp1.py` can range from experiment 1 to 5 example: `generate_exp3.py`.
+
+The data dir is the path where the movie folders are located
+
+You can also generate sparse weight with cylinder shapes by using the script:
+`python dare3d/tools/generate_sparse_weights.py --annotated_label <movie.tif>`
+
 
 ## Building singularity images
