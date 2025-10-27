@@ -3,7 +3,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="dare3d",
+    name="deletme3D",
     version="0.0.1",
     description="Division Axis Recognition in 3d",
     author="Romain Karpinski, Marc Karnat, Alice Gros, JF Rupprecht",
