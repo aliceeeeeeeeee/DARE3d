@@ -43,7 +43,7 @@ RUN THESE IN POWERSHELL
 conda activate dare3d
 
 # 2) Set HYDRA_FULL_ERROR=1 for this session (PowerShell)
-$Env:HYDRA_FULL_ERROR = "1"
+[$Env:HYDRA_FULL_ERROR = "1"](.) this and pip install -e. - everytime new folder
 
 # 3) Verify the env var is set (visual check)
 echo $Env:HYDRA_FULL_ERROR
@@ -56,4 +56,24 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 # 5) Then install all other packages from requirements.txt
 pip install -r requirements.txt
 
+$Env:HYDRA_FULL_ERROR = "1"
+python deletme3d/predict.py `
+segmentation.model_dir=C:\Users\Qazi\Documents\PhD_Y1\Division3D\DARE3d\dare_data\weights\segmentation3d_exp10-b `
+regression.model_dir=C:\Users\Qazi\Documents\PhD_Y1\Division3D\DARE3d\dare_data\weights\regression3d_exp10-b `
+inference_dir=C:\Users\Qazi\Documents\PhD_Y1\Division3D\DARE3d\dare_data\test_input  `
 
+python deletme3D/train.py `
+    experiment=segmentation `
+    data.batch_size=24 `
+    train_dir="3D/train" `
+    val_dir="3D/val" `
+    test_dir="3D/test" `
+    trainer.max_epochs=200 `
+    model.optimizer.lr=0.1 `
+    model/scheduler=one_cycle_lr `
+    model.scheduler_interval="step"
+
+# I commented the mlflow.yaml - to run
+# only relative paths work
+# the scale has to be of 3 dimensions during retraining
+# test also needs a labels folder
