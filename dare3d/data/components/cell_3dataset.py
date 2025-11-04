@@ -5,7 +5,7 @@ from tqdm import tqdm
 from skimage import io
 import numpy as np
 
-from deletme3D.data.components.abstract_celldataset import AbstractCellDataset
+from dare3d.data.components.abstract_celldataset import AbstractCellDataset
 
 log = logging.getLogger(__name__)
 

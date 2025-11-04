@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 from skimage import io
-from deletme3D.data.components.angles3d import (
+from dare3d.data.components.angles3d import (
     draw_line_in_matrix,
     get_points_from_quat,
 )

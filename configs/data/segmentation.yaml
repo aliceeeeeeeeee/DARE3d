@@ -1,4 +1,4 @@
-_target_: deletme3D.data.deletme_datamodule.DeletmeDataModule
+_target_: dare3d.data.deletme_datamodule.DeletmeDataModule
 
 defaults:
   - dataset@train_data: segmentation.yaml

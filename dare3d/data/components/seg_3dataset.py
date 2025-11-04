@@ -5,8 +5,8 @@ import os
 from tqdm import tqdm
 import numpy as np
 
-from deletme3D.data.components.cell_3dataset import Cell3Dataset
-from deletme3D.utils.image import multiscale_decimate_gpu, multiscale_decimate
+from dare3d.data.components.cell_3dataset import Cell3Dataset
+from dare3d.utils.image import multiscale_decimate_gpu, multiscale_decimate
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)

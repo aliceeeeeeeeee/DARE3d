@@ -1,4 +1,4 @@
-_target_: deletme3D.data.components.regress_3dataset.Regress3Dataset
+_target_: dare3d.data.components.regress_3dataset.Regress3Dataset
 
 im_folder: null
 label_folder: null

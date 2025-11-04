@@ -1,4 +1,4 @@
-_target_: deletme3D.models.components.simple_regression_net.RegressionNet
+_target_: dare3d.models.components.simple_regression_net.RegressionNet
 im_size: ${crop_size}
 input_channels: ${input_channels}
 angle_vec_size: 9

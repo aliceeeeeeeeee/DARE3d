@@ -18,7 +18,7 @@ def segmentation(set, epoch, date, name, batch_size, cell_radius, eval_only, seg
     if not eval_only and run:
         args = [
                 'python',
-                "deletme3D/train.py",
+                "dare3d/train.py",
                 "experiment=segmentation",
                 f"task_name=segmentation3d_{name}",
                 f"train_dir=3d/{set}/train",
@@ -57,7 +57,7 @@ def regression(set, epoch, date, name, batch_size, eval_only, overwrite):
     if not eval_only and run:
         args = [
             "python",
-            "deletme3D/train.py",
+            "dare3d/train.py",
             f"experiment=regression",
             f"task_name=regression3d_{name}",
             f"train_dir=3d/{set}/train",
@@ -90,7 +90,7 @@ def find_best_model(folder, checkpoint_dir="checkpoints"):
 def evaluate(seg_path, reg_path, threshold=None):
     args = [
         "python",
-        "deletme3D/eval.py",
+        "dare3d/eval.py",
         f"segmentation.model_dir={seg_path}",
         f"regression.model_dir={reg_path}",
         f"segmentation.threshold={'' if threshold is None else threshold}",

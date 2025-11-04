@@ -5,7 +5,7 @@ import torch
 from lightning import LightningModule
 from torchmetrics import MeanMetric
 
-from deletme3D.loggers.regression_logger import RegressionLogger
+from dare3d.loggers.regression_logger import RegressionLogger
 
 class RegressionLitModule(LightningModule):
     def __init__(

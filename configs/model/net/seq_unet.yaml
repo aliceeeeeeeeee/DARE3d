@@ -1,4 +1,4 @@
-_target_: deletme3D.models.components.seq_unet.SequenceUNet
+_target_: dare3d.models.components.seq_unet.SequenceUNet
 crop_size: ${crop_size}
 spatial_dims: 3
 out_channels: 1

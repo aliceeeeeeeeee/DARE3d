@@ -3,7 +3,7 @@ import scipy
 import numpy as np
 import monai
 
-from deletme3D.metrics.object_level import statistics, get_centroids_distance, iterative_matching
+from dare3d.metrics.object_level import statistics, get_centroids_distance, iterative_matching
 
 # Threshold prediction
 # Find all connected components

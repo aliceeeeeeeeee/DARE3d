@@ -6,8 +6,8 @@ from lightning import LightningModule
 from torchmetrics import MaxMetric, MeanMetric
 from torchmetrics.classification import BinaryJaccardIndex
 
-from deletme3D.loggers.segmentation_logger import SegmentationLogger
-from deletme3D.metrics.object_level import evaluate_at_object_level, compute_recall, compute_precision, compute_fmeasure
+from dare3d.loggers.segmentation_logger import SegmentationLogger
+from dare3d.metrics.object_level import evaluate_at_object_level, compute_recall, compute_precision, compute_fmeasure
 
 class SegmentationLitModule(LightningModule):
     def __init__(

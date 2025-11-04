@@ -1,12 +1,25 @@
 import warnings
 from importlib.util import find_spec
 from typing import Any, Callable, Dict, Optional, Tuple
+import numpy as np
 
 from omegaconf import DictConfig
 
-from deletme3D.utils import pylogger, rich_utils
+from dare3d.utils import pylogger, rich_utils
 
 log = pylogger.RankedLogger(__name__, rank_zero_only=True)
+
+
+def load_inference_results(path_to_npz: str) -> Dict[str, Any]:
+    data = np.load(path_to_npz)
+
+    results = {
+        "centers": data["centers"],
+        "rotation_matrices": data["rotation_matrices"],
+        "lengths": data["lengths"],
+    }
+
+    return results
 
 
 def extras(cfg: DictConfig) -> None:

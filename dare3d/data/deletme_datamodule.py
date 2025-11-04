@@ -1,9 +1,9 @@
 from typing import Any, Dict, Optional
 from lightning import LightningDataModule
 from torch.utils.data import DataLoader, Dataset
-from deletme3D.data.augmend_wrapper import AugmendWrapper
+from dare3d.data.augmend_wrapper import AugmendWrapper
 
-from deletme3D.utils import RankedLogger
+from dare3d.utils import RankedLogger
 
 log = RankedLogger(__name__, rank_zero_only=True)
 

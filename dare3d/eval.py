@@ -32,9 +32,9 @@ rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 # more info: https://github.com/ashleve/rootutils
 # ------------------------------------------------------------------------------------ #
 
-from deletme3D.metrics.infer_measure import (infer_and_evaluate_regression,
+from dare3d.metrics.infer_measure import (infer_and_evaluate_regression,
                                              infer_and_evaluate_segmentation)
-from deletme3D.utils import (RankedLogger, extras, instantiate_loggers,
+from dare3d.utils import (RankedLogger, extras, instantiate_loggers,
                              log_hyperparameters, task_wrapper)
 
 
@@ -83,7 +83,8 @@ def evaluate_segmentation(cfg: DictConfig):
         log.info("Starting testing!")        
         trainer.test(model=model, datamodule=datamodule, ckpt_path=cfg.ckpt_path)
     else:
-        state_dict = torch.load(cfg.ckpt_path, map_location="cpu")["state_dict"]
+        # state_dict = torch.load(cfg.ckpt_path, map_location="cpu")["state_dict"]
+        state_dict = torch.load(cfg.ckpt_path, map_location="cpu", weights_only=False)["state_dict"] #qazi_change_23/10/25
         model.load_state_dict(state_dict)
         model.net.eval()
 

@@ -1,4 +1,4 @@
-_target_: deletme3D.models.tap_module.TapModule
+_target_: dare3d.models.tap_module.TapModule
 
 defaults:
   - net: tap_unet.yaml

@@ -40,6 +40,8 @@ conda activate dare3d
 
 # install requirements
 pip install -r requirements.txt
+
+pip install -e. #insatll it everytime you are running the code in a new folder in your dare3d python environment
 ```
 
 #### Project folder structure

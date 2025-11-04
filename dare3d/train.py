@@ -32,7 +32,7 @@ rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 # more info: https://github.com/ashleve/rootutils
 # ------------------------------------------------------------------------------------ #
 
-from deletme3D.utils import (
+from dare3d.utils import (
     RankedLogger,
     extras,
     get_metric_value,

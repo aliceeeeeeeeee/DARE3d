@@ -1,4 +1,4 @@
-_target_: deletme3D.models.components.custom.CustomNet
+_target_: dare3d.models.components.custom.CustomNet
 spatial_dims: 3
 # Must be specified in code at runtime depending on the selected timesteps
 in_channels: 3
