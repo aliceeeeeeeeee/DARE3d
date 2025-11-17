@@ -1,8 +1,8 @@
-from deletme3D.utils.instantiators import instantiate_callbacks, instantiate_loggers
-from deletme3D.utils.logging_utils import log_hyperparameters
-from deletme3D.utils.pylogger import RankedLogger
-from deletme3D.utils.rich_utils import enforce_tags, print_config_tree
-from deletme3D.utils.utils import extras, get_metric_value, task_wrapper
+from dare3d.utils.instantiators import instantiate_callbacks, instantiate_loggers
+from dare3d.utils.logging_utils import log_hyperparameters
+from dare3d.utils.pylogger import RankedLogger
+from dare3d.utils.rich_utils import enforce_tags, print_config_tree
+from dare3d.utils.utils import extras, get_metric_value, task_wrapper
 
 from lightning.pytorch.plugins.environments import SLURMEnvironment
 from torch import nn

@@ -1,4 +1,4 @@
-_target_: deletme3D.losses.test.loss_wrapper
+_target_: dare3d.losses.test.loss_wrapper
 threshold: 0.5
 eps: 1e-6
 distance_threshold: 10

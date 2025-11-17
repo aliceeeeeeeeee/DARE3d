@@ -7,9 +7,9 @@ import rootutils
 import torch
 from omegaconf import DictConfig, OmegaConf
 
-from deletme3D.utils import RankedLogger, extras
-from deletme3D.metrics.inference import segmentation_inference, regression_inference
-from deletme3D.metrics.object_level import connected_components, statistics_optimized, get_sphere_vol, filter_by_object_weighted_prob
+from dare3d.utils import RankedLogger, extras
+from dare3d.metrics.inference import segmentation_inference, regression_inference
+from dare3d.metrics.object_level import connected_components, statistics_optimized, get_sphere_vol, filter_by_object_weighted_prob
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 log = RankedLogger(__name__, rank_zero_only=True)
@@ -18,7 +18,8 @@ OmegaConf.register_new_resolver("eval", eval)
 
 def load_data(cfg):
     model = hydra.utils.instantiate(cfg.model)
-    state_dict = torch.load(cfg.ckpt_path, map_location="cpu")["state_dict"]
+    # state_dict = torch.load(cfg.ckpt_path, map_location="cpu")["state_dict"]
+    state_dict = torch.load(cfg.ckpt_path, map_location="cpu", weights_only=False)["state_dict"] #qazi_change_23/10/25
     model.load_state_dict(state_dict)
 
     device=None

@@ -3,7 +3,7 @@ from torch import nn
 import torch
 import monai
 
-from deletme3D.models.components.multiscale_unet import MultiScaleUNet
+from dare3d.models.components.multiscale_unet import MultiScaleUNet
 
 class SegResMultiScaleUNet(MultiScaleUNet):
     def __init__(self, hook_layer_name, regression_in_channels, n_upsample, **kwargs):

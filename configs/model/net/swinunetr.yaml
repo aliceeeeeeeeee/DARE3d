@@ -1,4 +1,4 @@
-_target_: deletme3D.models.components.swinunetr_wrapper.SwinUNETRWrapper
+_target_: dare3d.models.components.swinunetr_wrapper.SwinUNETRWrapper
 img_size: [${crop_size}, ${crop_size}, ${crop_size}]
 in_channels: 3
 out_channels: 1

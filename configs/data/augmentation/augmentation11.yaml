@@ -1,4 +1,4 @@
-_target_: deletme3D.data.augmend_wrapper.AugmendWrapper
+_target_: dare3d.data.augmend_wrapper.AugmendWrapper
 
 defaults:
   - components/isotropic_scale.yaml

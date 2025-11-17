@@ -1,4 +1,4 @@
-from deletme3D.data.components.angles3d import rot6_to_rot9, symmetric_orthogonalization
+from dare3d.data.components.angles3d import rot6_to_rot9, symmetric_orthogonalization
 import numpy as np
 import torch
 import torch.nn.functional as F

@@ -1,4 +1,4 @@
-_target_: deletme3D.data.gpu_augmentations.MonaiAugmentationWrapper
+_target_: dare3d.data.gpu_augmentations.MonaiAugmentationWrapper
 
 defaults:
   - components:

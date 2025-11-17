@@ -5,8 +5,8 @@ import pytest
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, open_dict
 
-from deletme3D.eval import evaluate
-from deletme3D.train import train
+from dare3d.eval import evaluate
+from dare3d.train import train
 
 
 @pytest.mark.slow

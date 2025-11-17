@@ -4,7 +4,7 @@ from random import randrange
 
 import numpy as np
 
-from deletme3D.data.components.cell_3dataset import Cell3Dataset
+from dare3d.data.components.cell_3dataset import Cell3Dataset
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)

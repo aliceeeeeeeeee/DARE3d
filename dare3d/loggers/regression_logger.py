@@ -8,7 +8,7 @@ import torch
 from glob import glob
 from pathlib import Path
 
-from deletme3D.data.components.angles3d import (
+from dare3d.data.components.angles3d import (
     ANGLE_REPRESENTATION,
     draw_line_in_matrix,
     get_points_from_quat,

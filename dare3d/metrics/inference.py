@@ -2,12 +2,14 @@ import os
 
 import monai
 import numpy as np
+import pickle
+import json
 import torch
 from skimage import io
 from tqdm import tqdm
 
-from deletme3D.data.components.angles3d import representation_to_quaternion
-from deletme3D.utils.regression_display import display_regression
+from dare3d.data.components.angles3d import representation_to_quaternion
+from dare3d.utils.regression_display import display_regression
 
 def monai_model_wrapper(model):
     def f(x):
@@ -104,6 +106,8 @@ def regression_inference(dataset, model, centers, device, output_dir=None):
     if output_dir is not None:
         print(f"Prediction will be stored in folder: {output_dir}")
     predictions = []
+    raw_predictions = []  # Store raw rotation matrices and positions
+    
     # Loop over centers
     for i in tqdm(range(len(centers)), desc="Running regression inference..."):
         # Center = (M,T,X,Y,Z) with M the movie index
@@ -127,12 +131,34 @@ def regression_inference(dataset, model, centers, device, output_dir=None):
             rot = y["angle"][0].detach().cpu().numpy()
             quat = representation_to_quaternion(rot, dataset.representation, post=True)
 
+            # Convert rotation to 3x3 rotation matrix for saving
+            from scipy.spatial.transform import Rotation as R
+            rotation_matrix = R.from_quat(quat[[1,2,3,0]]).as_matrix()  # Convert wxyz to xyzw for scipy
+
             # length, rot, center = dataset.unscale_prediction(length, rot, center)
             
             predictions.append({"length": length, "rotation": quat, "center": center})
+            
+            # Store raw prediction data
+            raw_predictions.append({
+                "center": center,  # (M,T,X,Y,Z)
+                "length": length,
+                "rotation_matrix": rotation_matrix,  # 3x3 rotation matrix
+                "quaternion": quat,  # quaternion in wxyz format
+                "raw_rotation": rot,  # original network output
+                "representation": dataset.representation.name if hasattr(dataset.representation, 'name') else str(dataset.representation)
+            })
 
+    # Save raw predictions in multiple formats
     if output_dir is not None:
-        display_regression(predictions, dataset, output_dir)
+        # Save as numpy archive
+        np.savez(os.path.join(output_dir, "raw_predictions.npz"), 
+                centers=np.array([pred["center"] for pred in raw_predictions]),
+                lengths=np.array([pred["length"] for pred in raw_predictions]),
+                rotation_matrices=np.array([pred["rotation_matrix"] for pred in raw_predictions]),
+                quaternions=np.array([pred["quaternion"] for pred in raw_predictions]))
         
+        # Create visual representation (existing functionality)
+        display_regression(predictions, dataset, output_dir)
 
     return predictions

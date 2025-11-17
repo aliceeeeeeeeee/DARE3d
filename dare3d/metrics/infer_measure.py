@@ -1,18 +1,18 @@
 import os
 import numpy as np
 from matplotlib import pyplot as plt
-from deletme3D.metrics.object_level import (
+from dare3d.metrics.object_level import (
     evaluator_wrapper,
     eval_at_threshold,
     find_best_threshold,
     evaluate_at_object_level,
 )
-from deletme3D.metrics.inference import (
+from dare3d.metrics.inference import (
     segmentation_inference,
     regression_inference,
     display_regression,
 )
-from deletme3D.losses.angle3d import quaternion_error
+from dare3d.losses.angle3d import quaternion_error
 
 
 def evaluate_segmentation(

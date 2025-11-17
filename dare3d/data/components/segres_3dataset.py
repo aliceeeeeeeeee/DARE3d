@@ -1,8 +1,8 @@
 import numpy as np
 import scipy
 
-from deletme3D.data.components.seg_3dataset import Segmentation3Dataset
-from deletme3D.data.components.angles3d import get_quaternion, apply_quaternion, quaternion_to_representation, ANGLE_REPRESENTATION
+from dare3d.data.components.seg_3dataset import Segmentation3Dataset
+from dare3d.data.components.angles3d import get_quaternion, apply_quaternion, quaternion_to_representation, ANGLE_REPRESENTATION
 
 class SegRes3Dataset(Segmentation3Dataset):
     def __init__(self, base_quat_length=10, angle_representation="rotation_matrix_SVD", **kwargs):

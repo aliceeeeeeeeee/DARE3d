@@ -13,8 +13,8 @@ setup(
     # use this to customize global commands available in the terminal after installing the package
     entry_points={
         "console_scripts": [
-            "train_command = deletme3D.train:main",
-            "eval_command = deletme3D.eval:main",
+            "train_command = dare3d.train:main",
+            "eval_command = dare3d.eval:main",
         ]
     },
 )

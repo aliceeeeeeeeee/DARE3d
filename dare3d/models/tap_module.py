@@ -7,7 +7,7 @@ from lightning import LightningModule
 from torchmetrics import MeanMetric
 from torchmetrics.classification import BinaryAccuracy
 from monai.visualize import GradCAM
-from deletme3D.losses.decorrelation import DecorrelationLoss
+from dare3d.losses.decorrelation import DecorrelationLoss
 
 class TapModule(LightningModule):
     def __init__(
