@@ -4,7 +4,7 @@ from glob import glob
 from skimage import io
 from pathlib import Path
 
-from deletme3D.tools.generate_sparse_weights import compute_sparse_weights
+from dare3d.tools.generate_sparse_weights import compute_sparse_weights
 
 def copy_to(folders_in, folder_out):
     for folder_in in folders_in:

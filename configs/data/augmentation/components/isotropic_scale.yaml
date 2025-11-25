@@ -1,5 +1,5 @@
 isotropic_scale:
-  _target_: deletme3D.data.augmend_wrapper.AugmendComponentWrapper
+  _target_: dare3d.data.augmend_wrapper.AugmendComponentWrapper
 
   input:
     _target_: augmend.IsotropicScale

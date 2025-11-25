@@ -1,4 +1,4 @@
-_target_: deletme3D.metrics.infer_measure.infer_eval_wrapper
+_target_: dare3d.metrics.infer_measure.infer_eval_wrapper
 device: "gpu"
 batch_size: 8
 threshold: 0.5

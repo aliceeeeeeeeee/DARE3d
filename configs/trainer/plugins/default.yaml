@@ -1,2 +1,2 @@
-_target_: deletme3D.utils.DisabledSLURMEnvironment
+_target_: dare3d.utils.DisabledSLURMEnvironment
 auto_requeue: false

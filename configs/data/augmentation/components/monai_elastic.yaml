@@ -1,5 +1,5 @@
 random_elastic:
-  _target_: deletme3D.data.gpu_augmentations.MonaiAugmentationComponent
+  _target_: dare3d.data.gpu_augmentations.MonaiAugmentationComponent
   transform:
     _target_: monai.transforms.Rand3DElasticd
     keys: ["image", "label", "weight"]

@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 import torch
 
-from deletme3D.data.mnist_datamodule import MNISTDataModule
+from dare3d.data.mnist_datamodule import MNISTDataModule
 
 
 @pytest.mark.parametrize("batch_size", [32, 128])
