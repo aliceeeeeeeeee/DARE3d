@@ -1,6 +1,4 @@
-/data
 dataCells/
-logs/
 **/__pycache__/**
 *.egg-info
 .vscode

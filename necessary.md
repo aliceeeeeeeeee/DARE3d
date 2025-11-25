@@ -129,107 +129,18 @@ UnicodeDecodeError: 'charmap' codec can't decode byte 0x8f in position 41: chara
 segmentation_model_dir = r"C:\Users\tlili\Documents\DARE3d\logs\segmentation3D\runs\2025-11-10_11-04-41-140511"
 regression_model_dir   = r"C:\Users\tlili\Documents\DARE3d\logs\regression3D\runs\2025-11-06_17-40-27-423287"
 
-# to evaluate
+# to train and evaluate 
 
-python dare3d/eval.py `
-    segmentation.model_dir="C:\Users\tlili\Documents\TRIAL\DARE3d\logs\segmentation3D\runs\2025-11-18_17-12-18-792746" `
-    +segmentation.data.batch_size=4 `
-    segmentation.threshold=0.1 `
-    segmentation.min_weighted_prob=0.6 `
-    segmentation.ckpt_name=epoch_164.ckpt `
-    regression.model_dir="C:\Users\tlili\Documents\TRIAL\DARE3d\logs\regression3D\runs\2025-11-19_09-37-06-929606" `
-    regression.ckpt_name=epoch_084.ckpt `
-    +regression.data.batch_size=1 
+use the train_eval.py. 
+
+Case 1: Doing both segmentation and regression as well as eval
+
+Case 2: Only segmentation training and evaluation
+   python dare3d/train_eval.py --set_folder <your_folder_name> --epoch <number_of_epochs> --date <date_of_the_experiment>--train_segmentation True --train_regression False
+
+Case 3: Only regression training and evaluation
+   python dare3d/train_eval.py --set_folder <your_folder_name> --epoch <number_of_epochs> --date <date_of_the_experiment>--train_segmentation True --train_regression False
+
+Case 4: Only evaluation
+   python dare3d/train_eval.py --set_folder <your_folder_name> --epoch <number_of_epochs> --date <date_of_the_experiment>--train_segmentation True --train_regression False
     
-for gastruloids - RuntimeError: Calculated padded input size per channel: (34 x 2 x 34). Kernel size: (3 x 3 x 3). Kernel size can't be greater than actual input size
-
-Evaluating...:   0%|                                                                                                                                                  | 0/1 [00:00<?, ?it/s]C:\Users\tlili\Documents\DARE3d\dare3D\metrics\object_level.py:76: NumbaTypeSafetyWarning: unsafe cast from float64 to float32. Precision may be lost.
-  prob[value] = 0.0
-C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\skimage\_shared\utils.py:328: UserWarning: C:\Users\tlili\Documents\DARE3d\logs\segmentation3D\runs\2025-11-14_12-00-13-297772\movie4\movie4_true.tif is a low contrast image
-  return func(*args, **kwargs)
-C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\skimage\_shared\utils.py:328: UserWarning: C:\Users\tlili\Documents\DARE3d\logs\segmentation3D\runs\2025-11-14_12-00-13-297772\movie4\movie4_pred.tif is a low contrast image
-  return func(*args, **kwargs)
-C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\skimage\_shared\utils.py:328: UserWarning: C:\Users\tlili\Documents\DARE3d\logs\segmentation3D\runs\2025-11-14_12-00-13-297772\movie4\movie4_fp.tif is a low contrast image
-  return func(*args, **kwargs)
-C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\skimage\_shared\utils.py:328: UserWarning: C:\Users\tlili\Documents\DARE3d\logs\segmentation3D\runs\2025-11-14_12-00-13-297772\movie4\movie4_fn.tif is a low contrast image
-  return func(*args, **kwargs)
-[2025-11-14 17:40:43,361][dare3D.data.dare_datamodule][INFO] - [rank: 0] Setting augmentations...
-[2025-11-14 17:40:43,386][__main__][INFO] - [rank: 0] Instantiating loggers...
-[2025-11-14 17:40:43,386][dare3D.utils.instantiators][INFO] - [rank: 0] Instantiating logger <lightning.pytorch.loggers.mlflow.MLFlowLogger>
-[2025-11-14 17:40:43,388][dare3D.utils.instantiators][INFO] - [rank: 0] Instantiating logger <lightning.pytorch.loggers.tensorboard.TensorBoardLogger>
-[2025-11-14 17:40:43,389][dare3D.utils.instantiators][INFO] - [rank: 0] Instantiating logger <dare3D.loggers.regression_logger.RegressionLogger>
-[2025-11-14 17:40:43,390][__main__][INFO] - [rank: 0] Loading checkpoint: C:\Users\tlili\Documents\DARE3d\logs\regression3D\runs\2025-11-14_16-31-28-967813\checkpoints\epoch_094.ckpt       
-C:\Users\tlili\Documents\DARE3d\dare3D\eval.py:129: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
-  state_dict = torch.load(cfg.ckpt_path, map_location="cpu")["state_dict"]
-[2025-11-14 17:40:43,437][dare3D.data.components.abstract_celldataset][INFO] - Loading all movies and bipoints...
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:08<00:00,  8.57s/it]
-[2025-11-14 17:40:52,011][dare3D.data.components.abstract_celldataset][INFO] -  LOADED 1 movies with a total of 10 timestamps
-[2025-11-14 17:40:52,078][dare3D.data.components.abstract_celldataset][INFO] - Total number of sequences: 8
-Padding 1 movies...: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.08it/s]
-[2025-11-14 17:40:53,026][dare3D.data.components.cell_3dataset][INFO] - Normalizing all movies using renorm=min-max
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:01<00:00,  1.43s/it]
-Number of matched centers : 220
-Using GPU
-Prediction will be stored in folder: C:\Users\tlili\Documents\DARE3d\logs\regression3D\runs\2025-11-14_16-31-28-967813\pred_centers
-Running regression inference...:   1%|█▌                                                                                                                    | 3/220 [00:01<01:33,  2.33it/s] 
-Error executing job with overrides: ['segmentation.model_dir=C:\\Users\\tlili\\Documents\\DARE3d\\logs\\segmentation3D\\runs\\2025-11-14_12-00-13-297772', '+segmentation.data.batch_size=4', 'segmentation.threshold=0.1', 'segmentation.min_weighted_prob=0.6', 'segmentation.ckpt_name=epoch_125.ckpt', 'regression.model_dir=C:\\Users\\tlili\\Documents\\DARE3d\\logs\\regression3D\\runs\\2025-11-14_16-31-28-967813', 'regression.ckpt_name=epoch_094.ckpt', '+regression.data.batch_size=1']
-Traceback (most recent call last):
-  File "C:\Users\tlili\Documents\DARE3d\dare3D\eval.py", line 228, in <module>
-    main()
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\hydra\main.py", line 94, in decorated_main
-    _run_hydra(
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\hydra\_internal\utils.py", line 394, in _run_hydra
-    _run_app(
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\hydra\_internal\utils.py", line 457, in _run_app
-    run_and_report(
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\hydra\_internal\utils.py", line 223, in run_and_report
-    raise ex
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\hydra\_internal\utils.py", line 220, in run_and_report
-    return func()
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\hydra\_internal\utils.py", line 458, in <lambda>
-    lambda: hydra.run(
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\hydra\_internal\hydra.py", line 132, in run
-    _ = ret.return_value
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\hydra\core\utils.py", line 260, in return_value
-    raise self._return_value
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\hydra\core\utils.py", line 186, in run_job
-    ret.return_value = task_function(task_cfg)
-  File "C:\Users\tlili\Documents\DARE3d\dare3D\eval.py", line 225, in main
-    evaluate(segmentation_cfg, regression_cfg)
-  File "C:\Users\tlili\Documents\DARE3d\dare3D\eval.py", line 173, in evaluate
-    reg_stats = evaluate_regression(reg_cfg, info)
-  File "C:\Users\tlili\Documents\DARE3d\dare3D\eval.py", line 142, in evaluate_regression
-    stats = infer_and_evaluate_regression(dataset=datamodule.data_test,
-  File "C:\Users\tlili\Documents\DARE3d\dare3D\metrics\infer_measure.py", line 283, in infer_and_evaluate_regression
-    pred_angle_length = regression_inference(
-  File "C:\Users\tlili\Documents\DARE3d\dare3D\metrics\inference.py", line 125, in regression_inference
-    y = model.forward(X)
-  File "C:\Users\tlili\Documents\DARE3d\dare3D\models\components\simple_regression_net.py", line 72, in forward
-    features = block(features)
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\torch\nn\modules\module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\torch\nn\modules\module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "C:\Users\tlili\Documents\DARE3d\dare3D\models\components\simple_regression_net.py", line 17, in forward
-    x = self.conv1(x)
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\torch\nn\modules\module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\torch\nn\modules\module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\torch\nn\modules\conv.py", line 725, in forward
-    return self._conv_forward(input, self.weight, self.bias)
-  File "C:\Users\tlili\AppData\Local\anaconda3\envs\dare3d\lib\site-packages\torch\nn\modules\conv.py", line 720, in _conv_forward
-    return F.conv3d(
-RuntimeError: Calculated padded input size per channel: (34 x 2 x 34). Kernel size: (3 x 3 x 3). Kernel size can't be greater than actual input size
-
-# to predict
-
-python dare3D/predict.py -m `
-    segmentation.model_dir="C:\Users\tlili\Documents\DARE3d\logs\segmentation3D\runs\2025-11-10_11-04-41-140511" `
-    segmentation.ckpt_name=epoch_045.ckpt `
-    segmentation.threshold=0.5,0.8 `
-    segmentation.min_weighted_prob=0.1,0.4 `
-    segmentation.inference_overlap=0.25 `
-    inference_dir=dare_data\test_input
-    regression.model_dir="C:\Users\tlili\Documents\DARE3d\logs\regression3D\runs\2025-11-06_17-40-27-423287" `
-    regression.ckpt_name=epoch_003.ckpt
