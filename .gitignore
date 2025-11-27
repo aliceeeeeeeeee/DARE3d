@@ -1,6 +1,4 @@
-/data
 dataCells/
-logs/
 **/__pycache__/**
 *.egg-info
 .vscode
@@ -11,7 +9,7 @@ dev_HC
 .idea
 division_3D/main
 data.zip
-deletme.sif
+dare.sif
 .pytest*
 
 /garbage/*

@@ -1,4 +1,4 @@
-_target_: dare3d.data.deletme_datamodule.DeletmeDataModule
+_target_: dare3d.data.dare_datamodule.DareDataModule
 
 defaults:
   - dataset@train_data: regression.yaml

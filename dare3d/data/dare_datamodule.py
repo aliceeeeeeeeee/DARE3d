@@ -7,8 +7,8 @@ from dare3d.utils import RankedLogger
 
 log = RankedLogger(__name__, rank_zero_only=True)
 
-class DeletmeDataModule(LightningDataModule):
-    """`LightningDataModule` for the Deletme dataset.
+class DareDataModule(LightningDataModule):
+    """`LightningDataModule` for the Dare dataset.
 
     A `LightningDataModule` implements 7 key methods:
 

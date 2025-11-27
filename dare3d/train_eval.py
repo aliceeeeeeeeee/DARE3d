@@ -27,7 +27,7 @@ def segmentation(set, epoch, date, name, batch_size, cell_radius, eval_only, seg
                 "trainer.accelerator=gpu",
                 f"data.batch_size={batch_size}",
                 "data.num_workers=0",
-                "steps_per_epoch=2000",
+                "steps_per_epoch=1000",
                 f"trainer.max_epochs={epoch}",
                 "model/criterion=dice_focal",
                 "model.optimizer.lr=0.1",
@@ -38,7 +38,7 @@ def segmentation(set, epoch, date, name, batch_size, cell_radius, eval_only, seg
                 f"cell_radius={cell_radius}",
                 f"date={date}",
                 f"crop_size={seg_crop_size}",
-                "logger.mlflow.tracking_uri=file:///C:\\Users\\eqplenne\\deletme\\logs\\mlflow\\mlruns",
+                "logger.mlflow.tracking_uri=file:///C:/Users/tlili/Documents/DARE3d/logs/mlflow/mlruns",
                 ]
         print(args)
         ret_code = subprocess.call(args)
@@ -64,13 +64,13 @@ def regression(set, epoch, date, name, batch_size, eval_only, overwrite):
             f"val_dir=3d/{set}/val",
             f"trainer.max_epochs={epoch}",
             f"date={date}",
-            "steps_per_epoch=2000",
+            "steps_per_epoch=1000",
             "model.optimizer.lr=0.001",
             f"data.batch_size={batch_size}",
             "model/net=simple_regression_net",
-            "model.net.n_stages=5",
-            "model.net.start_filters=16",
-            "logger.mlflow.tracking_uri=file:///C:\\Users\\eqplenne\\deletme\\logs\\mlflow\\mlruns",
+            "model.net.n_stages=3",
+            "model.net.start_filters=32",
+            "logger.mlflow.tracking_uri=file:///C:/Users/tlili/Documents/DARE3d/logs/mlflow/mlruns",
         ]
         
         print(args)
