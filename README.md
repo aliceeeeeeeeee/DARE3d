@@ -28,11 +28,14 @@ Our approach relies on two steps:
 git clone https://github.com/JFRupprecht-OM/DARE3d
 cd DARE3d
 
+#To distinguish between your base and virtual environment(dare3d) in your command prompt, run either of the below
+conda init powershell
+conda init bash
+
 # create conda environment
 conda create -n dare3d python=3.10
 conda activate dare3d
 ```
-
 > **Important:** PyTorch CUDA wheels must be installed *before* installing the rest of the Python requirements (they are platform- and CUDA-version-specific and are served from PyTorch's wheel index). The `requirements.txt` in this repo excludes `torch`, `torchvision` and `torchaudio` so that the correct CUDA wheel can be installed first.
 
 ```bash
