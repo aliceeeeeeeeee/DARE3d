@@ -20,14 +20,14 @@ def _is_effectively_empty(path: Path, sentinels: Iterable[str]) -> bool:
 
 def get_path_to_demo_folder() -> Path:
     """
-    Ensure `dare3d/notebooks/demo_data` contains data; download if still empty.
+    Ensure `dare3d/demo_files` contains data; download if still empty.
     Returns
     -------
     pathlib.Path pointing to the demo directory (guaranteed to exist).
     """
     package = "dare3d"
-    subfolder = "demo_data"
-    url = "https://zenodo.org/api/records/17456474/draft/files/DARE3d_data.zip/content"
+    subfolder = "demo_files"
+    url = "https://zenodo.org/api/records/17456474/draft/files/DARE3d_data.zip"
     sentinels = _SENTINELS
     # ── locate a *writable* directory ────────────────────────────────
     try:
@@ -41,6 +41,7 @@ def get_path_to_demo_folder() -> Path:
     # ── download if still empty ──────────────────────────────────────
     if _is_effectively_empty(data_dir, sentinels):
         print(f"🔽 First run – downloading data into {data_dir} …")
+        data_dir.mkdir(parents=True, exist_ok=True)
         tmp = data_dir / "payload.zip"
         
         urllib.request.urlretrieve(url, tmp)     # <- simple, std-lib only
@@ -48,7 +49,7 @@ def get_path_to_demo_folder() -> Path:
         shutil.unpack_archive(tmp, data_dir)
         tmp.unlink()                         # remove archive after unpack
 
-        nested = data_dir / "demo_data"
+        nested = data_dir / "demo_files"
         if nested.is_dir():
             for child in nested.iterdir():
                 dest = data_dir / child.name   # move up one level
