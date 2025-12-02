@@ -111,19 +111,19 @@ python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch <nu
 **Case 2 — Train only segmentation and evaluate**
 
 ```bash
-python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch <num_epochs> --date <experiment_date> --train_segmentation True --train_regression False
+python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch <num_epochs> --date <experiment_date> --train_segmentation True
 ```
 
 **Case 3 — Train only regression and evaluate**
 
 ```bash
-python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch <num_epochs> --date <experiment_date> --train_segmentation False --train_regression True
+python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch <num_epochs> --date <experiment_date> --train_regression True
 ```
 
 **Case 4 — Evaluation only (use existing weights)**
 
 ```bash
-python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch <num_epochs> --date <experiment_date> --eval_only True
+python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch 0 --date <experiment_date> --eval_only True
 ```
 
 You can pass additional parameters (for example `--batch_size`, `--cell_radius`, etc.) in the same way; inspect `train_eval.py` for full list of supported command-line arguments and their defaults. If you prefer PowerShell on Windows, the same commands work but replace line continuation or quoting as required by PowerShell conventions (the examples above are valid single-line commands in PowerShell as well).
