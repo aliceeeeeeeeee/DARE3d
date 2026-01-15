@@ -1,283 +1,574 @@
 <div align="center">
 
-# dare3d on Pytorch
+# DARE3D: Division Axis Recognition in 3D
 
-<a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a> <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/-Lightning-792ee5?logo=pytorchlightning&logoColor=white"></a> <a href="https://hydra.cc/"><img alt="Config: Hydra" src="https://img.shields.io/badge/Config-Hydra-89b8cd"></a> <a href="https://github.com/ashleve/lightning-hydra-template"><img alt="Template" src="https://img.shields.io/badge/-Lightning--Hydra--Template-017F2F?style=flat&logo=github&labelColor=gray"></a><br>
+<a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a> <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/-Lightning-792ee5?logo=pytorchlightning&logoColor=white"></a> <a href="https://hydra.cc/"><img alt="Config: Hydra" src="https://img.shields.io/badge/Config-Hydra-89b8cd"></a> <a href="https://github.com/ashleve/lightning-hydra-template"><img alt="Template" src="https://img.shields.io/badge/-Lightning--Hydra--Template-017F2F?style=flat&logo=github&labelColor=gray"></a>
 
 </div>
 
-## Description
+---
 
-**D**ivision **A**xis **RE**cognition in **3D** tissues
+## Overview
 
-This repository contains the Python implementation to detect cell divisions (positions) and their attributes (i.e. angle and length) for 3D images.
+**DARE3D** is a deep learning framework for detecting cell divisions in 3D biological image volumes and estimating their key attributes. This Python implementation leverages PyTorch Lightning and Hydra for configuration management to provide a flexible, reproducible pipeline for:
 
-Our approach relies on two steps:
+1. **Segmentation**: Detect the center (barycenter) of cell divisions
+2. **Regression**: Estimate division attributes such as:
+   - Orientation angle
+   - Division axis length
+   - Other morphological parameters
 
-* Cell division detection using semantic segmentation to detect the center of the division
-* Cell attribute regression on detected divisions
+The framework supports both **training from custom datasets** and **inference on new data** using pre-trained models.
 
-## Summary
+---
 
-* [Native installation](#installation)
+## Quick Start (Demo Mode)
 
-## Installation
+The easiest way to get started is with the **included demo dataset** and pre-trained weights (downloaded automatically from Zenodo on first run):
 
 ```bash
-# clone project
+# 1. Clone the repository
 git clone https://github.com/JFRupprecht-OM/DARE3d
 cd DARE3d
 
-#To distinguish between your base and virtual environment(dare3d) in your command prompt, run either of the below
-conda init powershell
-conda init bash
+# 2. Create and activate conda environment
+conda create -n dare3d python=3.10
+conda activate dare3d
 
-# create conda environment
+# 3. Install PyTorch (adapt CUDA version if needed)
+python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# 4. Install DARE3D and dependencies
+pip install -r requirements.txt
+pip install -e .
+
+# 5. Run the prediction notebook
+# Open and run: Run_dare3d_Prediction.ipynb
+```
+
+> **Note**: The demo dataset and pre-trained models (segmentation & regression) will be automatically downloaded on first use. No manual setup needed!
+
+---
+
+## Installation
+
+### Prerequisites
+- Python 3.10
+- CUDA 11.8+ (for GPU training) or CPU-only mode
+- Conda (recommended)
+
+### Step-by-Step Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/JFRupprecht-OM/DARE3d
+cd DARE3d
+
+# 2. Initialize your shell for conda (optional but recommended)
+conda init powershell  # Windows PowerShell
+# OR
+conda init bash        # Linux/macOS
+
+# 3. Create a fresh conda environment
 conda create -n dare3d python=3.10
 conda activate dare3d
 ```
-> **Important:** PyTorch CUDA wheels must be installed *before* installing the rest of the Python requirements (they are platform- and CUDA-version-specific and are served from PyTorch's wheel index). The `requirements.txt` in this repo excludes `torch`, `torchvision` and `torchaudio` so that the correct CUDA wheel can be installed first.
+
+#### Install PyTorch First (Critical!)
+
+PyTorch wheels are CUDA-version specific. Install the correct variant **before** other dependencies:
 
 ```bash
-# install PyTorch + CUDA wheels (example: CUDA 12.1)
-# Change `cu121` to the appropriate CUDA build for your system if needed (e.g. cu118, cu126).
+# CUDA 12.1 (latest, recommended)
 python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-# install the rest of requirements
+# OR for CUDA 11.8
+python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+# OR for CPU-only
+python -m pip install torch torchvision torchaudio
+```
+
+#### Install DARE3D and Requirements
+
+```bash
+# Install remaining dependencies
 pip install -r requirements.txt
 
-# install project in editable mode
+# Install DARE3D in development mode
 pip install -e .
 ```
 
-If you prefer CPU-only installation (or if your system drivers don't match a CUDA wheel), you can instead install CPU wheels explicitly by adapting it in `requirements.txt` accordingly.
+### Special Configuration: Qt/napari (Optional)
 
-#### HYDRA_FULL_ERROR (PowerShell)
-
-To enable full Hydra tracebacks in PowerShell for the current session, run:
-
-```powershell
-$Env:HYDRA_FULL_ERROR = "1"
-```
-
-To persist this in every new PowerShell session, add the same line to your PowerShell profile (e.g. `notepad $PROFILE` -> paste the line -> save).
-
-You can also set the same variable for a single run on Linux/macOS when you are running a command, for example:
+If you encounter issues with `napari` GUI (specifically Qt):
 
 ```bash
-HYDRA_FULL_ERROR=1 python -m dare3d.train_eval
-```
-
-#### Napari / Qt note
-
-`napari` is included in `requirements.txt`, but GUI toolkits (Qt) are often easier to install via conda. If you encounter issues launching napari after `pip install -r requirements.txt`, install a Qt backend via conda-forge:
-
-```bash
+# Install PyQt via conda-forge (recommended)
 conda install -c conda-forge pyqt
-# or create an isolated environment
+
+# OR use an isolated napari environment
 conda create -n napari-env python=3.10
 conda activate napari-env
 conda install -c conda-forge napari pyqt
 ```
 
-This avoids many binary compatibility problems on different platforms.
+### Enable Full Hydra Error Messages (PowerShell)
 
-## Project folder structure
+For better debugging, enable full Hydra stack traces:
 
-The project folder structure is as follow:
+```powershell
+# For current session only:
+$Env:HYDRA_FULL_ERROR = "1"
+
+# To persist across sessions, add to your PowerShell profile:
+notepad $PROFILE
+# Add the line: $Env:HYDRA_FULL_ERROR = "1"
+# Save and restart PowerShell
+```
+
+For Linux/macOS:
+```bash
+HYDRA_FULL_ERROR=1 python -m dare3d.train_eval
+```
+
+---
+
+## Project Structure
 
 ```
-- config    # Contains the hydra configuration files
-- data      # This is where the data is locate
-- dare3d   # This is the library package that defines the model, the dataset...
-- scripts   # Contains the scripts to run the experiments
-- logs      # Contains the logs of the experiments
-- Run_dare3d_Prediction.ipynb - jupyter notebook which runs the prediction on videos
+dare3d/                          # Main package
+├── data/                        # Data loading and preprocessing
+│   ├── dare_datamodule.py      # PyTorch Lightning DataModule
+│   ├── augmend_wrapper.py      # GPU-accelerated augmentations
+│   ├── gpu_augmentations.py
+│   ├── augmentations/          # Augmentation pipeline definitions
+│   ├── components/             # Data pipeline components
+│   └── visualization/          # Data visualization utilities
+│
+├── models/                      # Neural network architectures
+│   ├── regression_module.py    # Regression model (attributes)
+│   ├── segmentation_module.py  # Segmentation model (centers)
+│   ├── tap_module.py           # Multi-task model variant
+│   ├── sequence_ordered_module.py
+│   ├── components/             # Model subcomponents
+│   └── net/                    # Network backbone definitions
+│
+├── losses/                      # Custom loss functions
+│   ├── angle3d.py              # 3D angle prediction loss
+│   ├── decorrelation.py        # Decorrelation loss
+│   └── pixelwise_crossentropy.py
+│
+├── metrics/                     # Evaluation metrics
+│   ├── inference.py            # Inference pipeline
+│   ├── infer_measure.py        # Measurement utilities
+│   ├── object_level.py         # Object-level metrics
+│   └── (others)
+│
+├── loggers/                     # Custom logging utilities
+│   ├── segmentation_logger.py
+│   └── regression_logger.py
+│
+├── tools/                       # Utility scripts and tools
+├── utils/                       # Helper functions and utilities
+│
+├── train.py                     # Main training script (Hydra-based)
+├── train_eval.py               # Combined training & evaluation
+├── eval.py                      # Evaluation-only script
+├── predict.py                   # Inference script
+├── demo.py                      # Demo data download utility
+└── __init__.py
+
+configs/                         # Hydra configuration files
+├── train.yaml                  # Training config template
+├── eval.yaml                   # Evaluation config
+├── predict.yaml                # Inference config
+├── data/                       # Data config (segmentation, regression, etc.)
+├── model/                      # Model architectures config
+│   ├── criterion/              # Loss functions config
+│   ├── metric/                 # Metrics config
+│   ├── net/                    # Network config
+│   ├── optimizer/              # Optimizer config
+│   └── scheduler/              # LR scheduler config
+├── trainer/                    # Trainer config (CPU, GPU, DDP, etc.)
+├── logger/                     # Logger config (MLflow, TensorBoard, etc.)
+├── callbacks/                  # PyTorch Lightning callbacks
+├── debug/                      # Debug modes
+├── experiment/                 # Experiment presets
+└── hparams_search/             # Hyperparameter search configs
+
+scripts/                        # Experiment generation scripts
+├── generate_exp1.py           # Generate train/val/test splits
+├── generate_exp2-7.py         # Other experiment variants
+└── generation_utils.py
+
+notebooks/                      # Jupyter notebooks
+├── Run_dare3d_Prediction.ipynb # Main prediction notebook (START HERE!)
+├── data_visualization.ipynb    # Interactive data exploration
+└── data_normalization.ipynb    # Data preprocessing
+
+tests/                          # Unit and integration tests
+├── test_train.py
+├── test_eval.py
+├── test_configs.py
+├── test_datamodules.py
+└── helpers/
+
+data/                           # Data storage (you'll populate this)
+└── 3D/                         # Your 3D image data goes here
+
+logs/                           # Training outputs (auto-generated)
+├── segmentation_{dataset_name}/
+│   └── runs/{date}/
+│       ├── checkpoints/        # Model weights
+│       ├── .hydra/             # Training config
+│       └── (tensorboard logs)
+└── regression_{dataset_name}/
+    └── runs/{date}/
+        ├── checkpoints/
+        ├── .hydra/
+        └── (tensorboard logs)
+
+requirements.txt               # Python dependencies
+setup.py                       # Package setup configuration
+pyproject.toml                 # Project metadata & pytest config
+Makefile                       # Development commands
+README.md                      # This file
+README.md.backup               # Original README (for reference)
 ```
 
-> Note on `data`: inside the `data` folder you should create the dataset splits used for training, validation and testing. A common layout is shown in the "Retraining dataset" section below (train/im, train/label, etc.). Follow that structure so the data loader and helper scripts can find the movies and their annotations.
+---
 
+## Configuration with Hydra
 
-## Training and Evaluating
+DARE3D uses **Hydra** for configuration management. This enables:
 
-This repository provides `train_eval.py` to train and evaluate models on your movies. The script supports training segmentation and regression models together or independently, and also evaluation-only mode. Below are example usages (bash style) — adapt paths and flags to your environment.
+- **Composable configs**: Override settings via CLI without editing files
+- **Experiment tracking**: Configs are automatically saved with each run
+- **Multi-run capabilities**: Launch parameter sweeps with a single command
 
-**Case 1 — Train both segmentation and regression, then evaluate**
+### Common Configuration Overrides
 
 ```bash
-python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch <num_epochs> --date <experiment_date>
+# Change device
+python dare3d/train.py trainer=gpu          # GPU training
+python dare3d/train.py trainer=cpu          # CPU training
+
+# Change model
+python dare3d/train.py model=segmentation   # Segmentation only
+python dare3d/train.py model=regression     # Regression only
+
+# Override specific parameters
+python dare3d/train.py data.batch_size=8 model.lr=0.001
+
+# Use an experiment preset
+python dare3d/train.py experiment=segmentation
 ```
 
-**Case 2 — Train only segmentation and evaluate**
+See [configs/](configs/) for all available configuration options.
+
+---
+
+## Training Models
+
+### Quick Training (Demo Mode)
+
+Use the included demo dataset for a quick validation run:
 
 ```bash
-python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch <num_epochs> --date <experiment_date> --train_segmentation True
+python dare3d/train_eval.py
 ```
 
-**Case 3 — Train only regression and evaluate**
+### Train on Custom Dataset
 
-```bash
-python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch <num_epochs> --date <experiment_date> --train_regression True
+#### 1. **Prepare Your Data**
+
+Required folder structure:
+```
+your_dataset/
+├── train/
+│   ├── im/
+│   │   ├── movie1.tif
+│   │   └── movie2.tif
+│   ├── label/
+│   │   ├── movie1.tif
+│   │   └── movie2.tif
+│   └── sparse/          (optional - per-voxel weighting)
+│       └── movie1.tif
+├── val/
+│   ├── im/
+│   ├── label/
+│   └── sparse/
+└── test/
+    ├── im/
+    ├── label/
+    └── sparse/
 ```
 
-**Case 4 — Evaluation only (use existing weights)**
+**Label Format**: Binary labeling of daughter cell pairs
+- First daughter cell → odd values (1, 3, 5, ...)
+- Second daughter cell → even values (2, 4, 6, ...)
+- Connected component analysis extracts center pairs
 
-```bash
-python dare3d/train_eval.py --set_folder <folder_with_training_data> --epoch 0 --date <experiment_date> --eval_only True
-```
+**Sparse Weighting** (optional): 2D mask per frame indicating which voxels to use. Defaults to all-ones if omitted.
 
-You can pass additional parameters (for example `--batch_size`, `--cell_radius`, etc.) in the same way; inspect `train_eval.py` for full list of supported command-line arguments and their defaults. If you prefer PowerShell on Windows, the same commands work but replace line continuation or quoting as required by PowerShell conventions (the examples above are valid single-line commands in PowerShell as well).
+#### 2. **Register Your Data Scales**
 
-> Tip: use a consistent `--date` or experiment name so logs and checkpoints are easy to locate under `logs/` (see the Model directory section below).
-
-## Inference
-
-### Demo dataset and pretrained weights
-
-A small demo dataset (test movie + ground truth) and two example pretrained weight files are available via Zenodo. This demo allows users to quickly test inference and visualization using our notebooks and scripts. See the `Run_dare3d_Prediction.ipynb` notebook (or the Inference section above) to point to the demo data and run predictions.
-
-### Prediction
-
-We provide `Run_dare3d_Prediction.ipynb`, a Jupyter notebook that guides users through running predictions on their movies. The notebook accepts either:
-
-* A path to your own movies and model checkpoints, or
-* The demo data and pretrained weights from Zenodo (recommended for quick testing).
-
-The notebook performs the following:
-
-* Runs the segmentation model to detect division barycenters (the center between two daughter cells).
-* Runs the regression model to estimate orientation (angle) and other attributes between daughter cells.
-* Exports per-movie visualization outputs (movies and overlays) to your selected output directory.
-* Allows interactive comparison with ground truth for qualitative inspection.
-
-
-### Model directory structure
-
-### Model directory structure
-
-During training, checkpoints and run metadata are written under the repository `logs/` directory. A typical model directory for a single training run follows the structure:
-
-```
-logs/
-    {training_name}_{folder_name}/        # e.g. segmentation_myDataset or regression_myDataset
-        runs/
-            {date}/                        # date string passed during training
-                checkpoints/
-                    epoch_{best_epoch}.ckpt
-                    last.ckpt
-                .hydra/
-                    config.yaml             # training configuration
-```
-
-* `training_name` — "segmentation" or "regression"
-* `folder_name` — the dataset folder name you supplied via `--set_folder`
-* `date` — the experiment date passed during training
-
-When calling `predict.py`, set `model_dir` to the **run directory containing the `checkpoints/` folder**, for example:
-
-```
-logs/segmentation_myDataset/runs/2025-05-01/
-```
-
-Inside this folder, select a checkpoint from `checkpoints/` (e.g., `epoch_10.ckpt` or `last.ckpt`). The corresponding `.hydra/config.yaml` file in the same run directory is automatically loaded to reconstruct the configuration used during training. You can change the checkpoint folder by modifying the parameter `ckpt_dir`. Check the config file for other overrides: [configs/predict.yaml](configs/predict.yaml)
-
-### Image folder structure
-
-It should be a folder containing `.tif` files which represent the movies you want to infer on.
-
-### Specify the movie scales
-
-In order to infer correctly on your data, you must either provide a json file scale:
-
+Edit [data/3D/scales.json](data/3D/scales.json):
 ```json
 {
-    "movie_name": [1.0, 1.0, 1.0] # X, Y, Z
+  "movie1": [1.0, 1.0, 1.0],
+  "movie2": [0.5, 0.5, 2.8]
 }
 ```
+Scales should be in **µm/voxel** for X, Y, Z respectively.
 
-And override the config parameter `+scale_file=<path_to_json>`
+#### 3. **Train the Model**
 
-Or if the scale is the same across all movies you can override the default scale `+default_scale=1.0` which can be a single scalar or a triplet that represent the scales for X,Y,Z like `+default_scale=[1.0, 1.0, 2.8]`
+```bash
+# Train both segmentation and regression
+python dare3d/train_eval.py --set_folder path/to/your_dataset --epoch 50
 
-All scale are supposed to be in μm/voxel
+# Train segmentation only
+python dare3d/train_eval.py --set_folder path/to/your_dataset --epoch 50 --train_segmentation True
 
-Then you have to specify the target scale `+target_scale=1.0` or `+target_scale=[1.0, 1.0, 0.5]` which will be used to computed the shape of the movie in the target scale.
+# Train regression only
+python dare3d/train_eval.py --set_folder path/to/your_dataset --epoch 50 --train_regression True
 
-This is simply done by dividing the movie scale by the target scale to obtain the scale factor that will be used to resize the movie.
-
-For simplicity - we are providing a scales.json file located at `data/3D/` folder for your reference. You could also edit and add your respective movies scales in this file as well.
-
-**Usually a network is trained on a specific target scale so you should only have to specifiy the movie original scale**
-
-### How config loading works
-
-We first load the config from the model dir path `<model_dir>/.hydra/config.yaml` on top of which
-we overload parameters by the ones defined in `configs/predict.yaml`. This means that any parameters
-that we add in the `configs/predict.yaml` or directly in CLI by adding a parameters (ex: `+data.batch_size=4`) will override the one in the original config.
-
-## Retraining dataset
-
-For retraining, we need:
-
-1. the raw input movie, which should be ordered with the time label first (T,Z,Y,X) and in `.tif` file format.
-2. the label movie in the same format as the input movie, with the same dimension as the input movie and must contains labelled daughter cells centers. We retrieve the daughter cells centers pairs by performing a connected component analysis based on the value of the annotations. Two centers belonging to each a daughter cell from the same division must have consecutive label values with the first one being impair and the second pair. For instance, the first daughter cell may have pixels of value 1 and the second daughter cell pixels of value 2.
-
-Then, we expect by default to put these two movies in separate folders like:
-
-```
-train/
-    im/
-        movie.tif
-    label/
-        movie.tif
-    sparse/ (optional)
-        movie.tif
+# Additional parameters (see train_eval.py for all)
+python dare3d/train_eval.py \
+  --set_folder path/to/your_dataset \
+  --epoch 50 \
+  --date 2025-05-01 \
+  --batch_size 4 \
+  --cell_radius 15
 ```
 
-If you want to add another movie `movie2.tif` and its label `movie2.tif`, you can do so by adding them to each corresponding folders:
+#### 4. **Monitor Training**
 
+Checkpoints and logs are saved to:
 ```
-train/
-    im/
-        movie.tif
-        movie2.tif
-    label/
-        movie.tif
-        movie2.tif
-    sparse/ (optional)
-        movie.tif
-```
-
-The label movie must have the same name as the raw movie.
-You can also add a sparse folder which can contains a weight matrix to consider or not specific voxels in a movie. You can rule out certain parts of pixels if you want to. The sparse folder is optional. If a sparse matrix is not in the sparse folder, it defaults to a matrix of one which means that we will use all pixels (no sparse at all) for the given sample.
-
-**If movies are being added, you must add their scale to the `scales.json` file or it will use the default scale.**
-
-## Folder hierarchy
-
-To make the configuration easier it is better if you follow the following folder hierarchy:
-
-```
-dare3d/
-    data/
-        3d/
-            movie1/
-            movie2/
-            movie3/
-            exp1/
-            exp2/
+logs/
+├── segmentation_{dataset_name}/runs/{date}/
+│   ├── checkpoints/
+│   │   ├── epoch_10.ckpt
+│   │   ├── epoch_best.ckpt
+│   │   └── last.ckpt
+│   └── .hydra/config.yaml       # Configuration used
+└── regression_{dataset_name}/runs/{date}/
+    └── checkpoints/
 ```
 
-You can generate the experiments by using the two scripts:
+View tensorboard logs:
+```bash
+tensorboard --logdir logs/
+```
 
-* First you need to create split movies on the X axis
-  `python scripts/generate_split_movies.py --data_dir=<path to data dir>`
-* Then you can generate each experiment
-  `python scripts/generate_exp1.py --data_dir=<path to data dir>`
+---
 
-`generate_exp1.py` can range from experiment 1 to 5 example: `generate_exp3.py`.
+## Inference (Prediction)
 
-The data dir is the path where the movie folders are located
+### Quickest Path: Use the Notebook
 
-You can also generate sparse weight with cylinder shapes by using the script:
-`python dare3d/tools/generate_sparse_weights.py --annotated_label <movie.tif>`
+The easiest way to run inference is the **Jupyter notebook**:
+
+```bash
+jupyter notebook Run_dare3d_Prediction.ipynb
+```
+
+This notebook:
+- Guides you through path setup
+- Downloads demo data automatically (if needed)
+- Runs both segmentation and regression
+- Produces visualization outputs
+- Supports comparison with ground truth
+
+### Command-Line Inference
+
+For programmatic or batch processing:
+
+```bash
+python dare3d/predict.py
+```
+
+Configuration is in [configs/predict.yaml](configs/predict.yaml). Key parameters:
+
+```bash
+python dare3d/predict.py \
+  +model_dir=logs/segmentation_myDataset/runs/2025-05-01 \
+  +data.test_data.data_dir=/path/to/input/movies \
+  +output_dir=/path/to/output
+```
+
+#### Model Checkpoint Selection
+
+The script automatically loads `.hydra/config.yaml` from the model directory. Specify which checkpoint:
+
+```bash
+python dare3d/predict.py \
+  +model_dir=logs/segmentation_myDataset/runs/2025-05-01 \
+  +ckpt_dir=checkpoints/epoch_best.ckpt
+```
+
+#### Scale Configuration
+
+Movies must be registered with their correct pixel scales (in µm/voxel):
+
+**Option 1 - JSON file (preferred)**:
+```json
+{
+  "movie1.tif": [1.0, 1.0, 1.0],
+  "movie2.tif": [0.5, 0.5, 2.8]
+}
+```
+```bash
+python dare3d/predict.py +scale_file=data/3D/scales.json
+```
+
+**Option 2 - Default scale** (same for all movies):
+```bash
+python dare3d/predict.py +default_scale=1.0
+# OR for anisotropic voxels
+python dare3d/predict.py +default_scale=[1.0, 1.0, 2.8]
+```
+
+**Option 3 - Target scale** (for network that was trained on specific scale):
+```bash
+python dare3d/predict.py +default_scale=1.0 +target_scale=1.0
+```
+
+---
+
+## Testing
+
+Run the test suite to verify your installation:
+
+```bash
+# Quick tests (excludes slow tests)
+make test
+
+# All tests (including slow ones)
+make test-full
+
+# Or using pytest directly
+pytest -k "not slow"
+pytest
+```
+
+Expected test categories:
+- `test_configs.py` - Configuration loading
+- `test_datamodules.py` - Data pipeline
+- `test_train.py` - Training mechanics
+- `test_eval.py` - Evaluation pipeline
+
+---
+
+## Data Preparation & Experiments
+
+### Generate Experiment Splits
+
+Use the provided scripts to organize your raw data:
+
+```bash
+# 1. Split movies along X axis (recommended preprocessing)
+python scripts/generate_split_movies.py --data_dir data/3D
+
+# 2. Generate experiment-specific train/val/test splits
+python scripts/generate_exp1.py --data_dir data/3D
+# exp2, exp3, ... exp7 also available
+```
+
+### Generate Sparse Weight Masks
+
+To exclude specific regions from training (e.g., damaged areas):
+
+```bash
+python dare3d/tools/generate_sparse_weights.py \
+  --annotated_label path/to/label.tif
+```
+
+---
+
+## Development & Utilities
+
+### Useful Make Commands
+
+```bash
+make help              # Show all available commands
+make test              # Run quick tests
+make test-full         # Run all tests
+make format            # Run pre-commit hooks (code formatting)
+make clean             # Remove build artifacts and caches
+make clean-logs        # Remove all training logs
+make sync              # Sync with upstream main branch
+```
+
+### Useful Utilities
+
+**Visualize data**:
+```bash
+jupyter notebook notebooks/data_visualization.ipynb
+```
+
+**Normalize data**:
+```bash
+jupyter notebook notebooks/data_normalization.ipynb
+```
+
+**Check imports and dependencies**:
+```bash
+pip check                        # Verify environment consistency
+python -c "from dare3d import *; print('Package imports OK')"
+```
+
+---
+
+## License & Attribution
+
+This repository is part of PhD research in 3D cell division analysis.
+
+**Authors**: Romain Karpinski, Marc Karnat, Alice Gros, Qazi Saaheelur Rahaman, Jules Vanaret, Mehdi Saadaoui, Sham Tlili, and Jean-Francois Rupprecht
+
+**Based on**: [Lightning-Hydra-Template](https://github.com/ashleve/lightning-hydra-template)
+
+---
+
+## Troubleshooting
+
+### Issue: CUDA Out of Memory
+- Reduce batch size: `--batch_size 2`
+- Use CPU training: `trainer=cpu`
+- Use gradient accumulation: `trainer.accumulate_grad_batches=2`
+
+### Issue: napari/Qt GUI not working
+```bash
+conda install -c conda-forge pyqt
+```
+
+### Issue: Import errors after installation
+```bash
+pip install -e .  # Reinstall in editable mode
+```
+
+### Issue: Hydra config errors
+```powershell
+$Env:HYDRA_FULL_ERROR = "1"  # PowerShell - show full traceback
+```
+
+### Demo data not downloading
+The demo folder downloads automatically from Zenodo on first run. If this fails:
+- Check internet connection
+- Verify Zenodo is accessible
+- Manual download: [DARE3d_data.zip](https://zenodo.org/api/records/17456474/draft/files/DARE3d_data.zip)
+
+---
+
+## Additional Resources
+
+- **Hydra Documentation**: https://hydra.cc/
+- **PyTorch Lightning**: https://www.pytorchlightning.ai/
+- **MONAI**: https://monai.io/ (medical imaging toolkit)
+
+---
+
+**Questions?** Check the demo notebook or open an issue on the repository.
