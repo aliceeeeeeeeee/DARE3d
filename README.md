@@ -533,11 +533,10 @@ python -c "from dare3d import *; print('Package imports OK')"
 
 ## License & Attribution
 
-This repository is part of PhD research in 3D cell division analysis.
+This work was granted access to the HPC resources of IDRIS under the allocation AD010314339 made by GENCI.
 
 **Authors**: Romain Karpinski, Marc Karnat, Alice Gros, Qazi Saaheelur Rahaman, Jules Vanaret, Mehdi Saadaoui, Sham Tlili, and Jean-Francois Rupprecht
 
-**Based on**: [Lightning-Hydra-Template](https://github.com/ashleve/lightning-hydra-template)
 
 ---
 
