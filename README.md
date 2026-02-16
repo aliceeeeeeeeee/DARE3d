@@ -305,6 +305,14 @@ your_dataset/
     └── sparse/
 ```
 
+**Movie Dimensions**: All `.tif` movies (both images and labels) are stored as 4D arrays with axis order **(T, Z, Y, X)**:
+| Axis | Description |
+|------|-------------|
+| T | Time (number of frames) |
+| Z | Depth (number of Z-slices) |
+| Y | Height (pixels) |
+| X | Width (pixels) |
+
 **Label Format**: Binary labeling of daughter cell pairs
 - First daughter cell → odd values (1, 3, 5, ...)
 - Second daughter cell → even values (2, 4, 6, ...)
