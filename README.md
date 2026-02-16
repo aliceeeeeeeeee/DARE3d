@@ -12,11 +12,11 @@
 
 **DARE3D** is a deep learning framework for detecting cell divisions in 3D biological image volumes and estimating their key attributes. This Python implementation leverages PyTorch Lightning and Hydra for configuration management to provide a flexible, reproducible pipeline for:
 
-1. **Segmentation**: Detect the center (barycenter) of cell divisions
-2. **Regression**: Estimate division attributes such as:
+1. **Segmentation**: Detect the center of cell divisions, defined as the barycenter between the two daughter cells.
+2. **Regression**: Estimate the
    - Orientation angle
    - Division axis length
-   - Other morphological parameters
+between the two daughter cells.
 
 The framework supports both **training from custom datasets** and **inference on new data** using pre-trained models.
 
