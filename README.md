@@ -35,9 +35,8 @@ cd DARE3d
 conda create -n dare3d python=3.10
 conda activate dare3d
 ```
+3.Install [Pytorch](https://pytorch.org/get-started/locally/) for your CUDA version.
 
-# 3. Install PyTorch (adapt CUDA version if needed)
-Install [Pytorch](https://pytorch.org/get-started/locally/) for your CUDA version
 
 ```bash
 # 4. Install DARE3D and dependencies
