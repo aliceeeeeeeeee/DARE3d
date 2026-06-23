@@ -34,10 +34,12 @@ cd DARE3d
 # 2. Create and activate conda environment
 conda create -n dare3d python=3.10
 conda activate dare3d
+```
 
 # 3. Install PyTorch (adapt CUDA version if needed)
-python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+Install [Pytorch](https://pytorch.org/get-started/locally/) for your CUDA version
 
+```bash
 # 4. Install DARE3D and dependencies
 pip install -r requirements.txt
 pip install -e .
